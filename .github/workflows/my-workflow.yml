@@ -13,12 +13,14 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "🎉 You've created this issue comment using GitHub Script!!!"
-            })
+             const fs = require('fs')
+             const issueBody = fs.readFileSync(".github/ISSUE_RESPONSES/comment.md", "utf8")
+             github.issues.createComment({
+             issue_number: context.issue.number,
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             body: issueBody
+             })
             
       - name: Add Issue to Project Board
         uses: actions/github-script@0.8.0
